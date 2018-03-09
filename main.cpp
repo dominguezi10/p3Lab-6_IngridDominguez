@@ -21,6 +21,7 @@ int kbhit(void);
 Jugador* crearJugador(int);
 int tipoBomba();
 void movimientoInvisible();
+void movimientoTren();
 
 int main(void){
     Escenario* escenario;
@@ -65,6 +66,7 @@ int main(void){
             jugador = crearJugador(2);
 
             escenario = new Tren(nombreE);
+            movimientoTren();
             refresh();
             usleep(1000000);
             //movimiento();
@@ -94,9 +96,9 @@ int menu(){
         
         attron(COLOR_PAIR(2));
         move(2, 1);
-        printw("2) Escenario Invisible:\n");
+        printw("1) Escenario Invisible\n");
         move(3, 1);
-        printw("2) Intento de Snake \n");
+        printw("2) El Tren \n");
         move(4, 1);
         printw("3) Salir \n");
         attroff(COLOR_PAIR(2));
@@ -206,7 +208,7 @@ void salir()
         init_pair(1, COLOR_RED, COLOR_BLACK);
         attron(COLOR_PAIR(1));
         move(y / 2, (x / 2 - 6));
-        printw("Saliendo");
+        printw("Saliendo del Juego");
         refresh();
         usleep(1000000 / 2);
         printw(".");
@@ -226,15 +228,16 @@ void salir()
 
 void movimientoInvisible(){
     erase();
-    //vector <char> ser={'*','*','*'};
     char ser = '*';
     int x, y;
     int enX;
     int enY;
     getmaxyx(stdscr, y, x);
-    move(0,20);
+    
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_BLACK);
+    refresh();
+    move(0,0);
     printw("A JUGAR...... (MUEVETE!!)");
     refresh();
     int direccion = 3;
@@ -268,6 +271,12 @@ void movimientoInvisible(){
             if (tecla == 115)
             {
                 direccion = 4;
+            }
+
+            if(tecla == 10){
+                move(enY, enX);
+                printw("O");
+                refresh();
             }
         }
         if ((enX > -1 && enY > 1) && (enX < 13 && enY < 11))
@@ -312,6 +321,101 @@ void movimientoInvisible(){
     usleep(1000000 / 2);
     curs_set(1);
 }
+
+
+void movimientoTren(){
+    erase();
+    char ser = '*';
+    int x, y;
+    int enX;
+    int enY;
+    getmaxyx(stdscr, y, x);
+    
+    start_color();
+    init_pair(1, COLOR_WHITE, COLOR_BLACK);
+    refresh();
+    move(0,0);
+    printw("A JUGAR...... (MUEVETE!!)");
+    refresh();
+    int direccion = 3;
+    enX = 0;
+    enY = 2;
+    curs_set(0);
+    erase();
+    int tecla;
+    tecla = getch();
+    while (true)
+    {
+        
+        if (kbhit())
+        {
+            tecla = getch();
+            //ARRIBA
+            if (tecla == 119)
+            {
+                direccion = 1;
+            }
+            //IZQUIERDA
+            if (tecla == 97)
+            {
+                direccion = 2;
+            }
+            //DERECHA
+            if (tecla == 100)
+            {
+                direccion = 3;
+            }
+            //ABAJO
+            if (tecla == 115)
+            {
+                direccion = 4;
+            }
+            
+        }
+        if ((enX > -1 && enY > 1) && (enX < 13 && enY < 11))
+        {
+            move(enY, enX);
+            printw("*");
+            refresh();
+            usleep(1000000 / 4);
+            if (direccion == 1)
+            {
+                enY = enY - 1;
+                move(enY + 1, enX);
+                printw(" ");
+            }
+            if (direccion == 2)
+            {
+                enX = enX - 1;
+                move(enY, enX + 1);
+                printw(" ");
+            }
+            if (direccion == 3)
+            {
+                enX = enX + 1;
+                move(enY, enX - 1);
+                printw(" ");
+            }
+            if (direccion == 4)
+            {
+                enY = enY + 1;
+                move(enY - 1, enX);
+                printw(" ");
+            }
+        }
+        else
+        {
+            break;
+        }
+    }
+    move(y / 2, (x / 2 - 4));
+    printw("Perdió!!");
+    refresh();
+    usleep(1000000 / 2);
+    curs_set(1);
+}
+
+
 
 void movimiento()
 {
