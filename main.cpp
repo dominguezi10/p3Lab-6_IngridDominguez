@@ -20,6 +20,7 @@ int kbhit(void);
 
 Jugador* crearJugador(int);
 int tipoBomba();
+void movimientoInvisible();
 
 int main(void){
     Escenario* escenario;
@@ -45,6 +46,8 @@ int main(void){
 
             int opcion ;
             opcion = tipoBomba();
+
+            movimientoInvisible();
             refresh();
             usleep(1000000);
             
@@ -98,10 +101,10 @@ int menu(){
         printw("3) Salir \n");
         attroff(COLOR_PAIR(2));
     }
-    int cx = 0;
-    int cy = 2;
+    int enX = 0;
+    int enY = 2;
     int tecla;
-    move(cy, cx);
+    move(enY, enX);
     refresh();
     while (true)
     {
@@ -109,19 +112,19 @@ int menu(){
         tecla = getch();
         if (tecla == 10)
         {
-            if (cy == 2)
+            if (enY == 2)
             {
                 return 1;
             }
-            if (cy == 3)
+            if (enY == 3)
             {
                 return 2;
             }
-            if (cy == 4)
+            if (enY == 4)
             {
                 return 3;
             }
-            if (cy == 5)
+            if (enY == 5)
             {
                 return 4;
             }
@@ -129,17 +132,17 @@ int menu(){
         else
         {
             //printw("%i",tecla);
-            if (tecla == 65 && cy > 2)
+            if (tecla == 65 && enY > 2)
             {
                 //printw(" arriba");
-                cy = cy - 1;
-                move(cy, cx);
+                enY = enY - 1;
+                move(enY, enX);
             }
-            else if (tecla == 66 && cy <= 4)
+            else if (tecla == 66 && enY <= 4)
             {
                 //printw(" abajo");
-                cy = cy + 1;
-                move(cy, cx);
+                enY = enY + 1;
+                move(enY, enX);
             }
             else
             {
@@ -221,14 +224,103 @@ void salir()
     exit(0);
 }
 
+void movimientoInvisible(){
+    erase();
+    //vector <char> ser={'*','*','*'};
+    char ser = '*';
+    int x, y;
+    int enX;
+    int enY;
+    getmaxyx(stdscr, y, x);
+    move(0,20);
+    start_color();
+    init_pair(1, COLOR_WHITE, COLOR_BLACK);
+    printw("A JUGAR...... (MUEVETE!!)");
+    refresh();
+    int direccion = 3;
+    enX = 0;
+    enY = 2;
+    curs_set(0);
+    erase();
+    int tecla;
+    tecla = getch();
+    while (true)
+    {
+        if (kbhit())
+        {
+            tecla = getch();
+            //ARRIBA
+            if (tecla == 119)
+            {
+                direccion = 1;
+            }
+            //IZQUIERDA
+            if (tecla == 97)
+            {
+                direccion = 2;
+            }
+            //DERECHA
+            if (tecla == 100)
+            {
+                direccion = 3;
+            }
+            //ABAJO
+            if (tecla == 115)
+            {
+                direccion = 4;
+            }
+        }
+        if ((enX > -1 && enY > 1) && (enX < 13 && enY < 11))
+        {
+            move(enY, enX);
+            printw("*");
+            refresh();
+            usleep(1000000 / 4);
+            if (direccion == 1)
+            {
+                enY = enY - 1;
+                move(enY + 1, enX);
+                printw(" ");
+            }
+            if (direccion == 2)
+            {
+                enX = enX - 1;
+                move(enY, enX + 1);
+                printw(" ");
+            }
+            if (direccion == 3)
+            {
+                enX = enX + 1;
+                move(enY, enX - 1);
+                printw(" ");
+            }
+            if (direccion == 4)
+            {
+                enY = enY + 1;
+                move(enY - 1, enX);
+                printw(" ");
+            }
+        }
+        else
+        {
+            break;
+        }
+    }
+    move(y / 2, (x / 2 - 4));
+    printw("Perdió!!");
+    refresh();
+    usleep(1000000 / 2);
+    curs_set(1);
+}
+
 void movimiento()
 {
     erase();
     //vector <char> ser={'*','*','*'};
     char ser = '*';
     int x, y;
-    int cx = 1;
-    int cy = 1;
+    int enX = 1;
+    int enY = 1;
     getmaxyx(stdscr, y, x);
     move(y / 2, x / 2 - 18);
     start_color();
@@ -246,8 +338,8 @@ void movimiento()
         tecla = getch();
     }
     int direccion = 3;
-    cx = x / 2;
-    cy = y / 2;
+    enX = x / 2;
+    enY = y / 2;
     curs_set(0);
     erase();
     while (true)
@@ -276,34 +368,34 @@ void movimiento()
                 direccion = 4;
             }
         }
-        if ((cx > 0 && cy > 0) && (cx < x && cy < y))
+        if ((enX > 0 && enY > 0) && (enX < x && enY < y))
         {
-            move(cy, cx);
+            move(enY, enX);
             printw("*");
             refresh();
             usleep(1000000 / 4);
             if (direccion == 1)
             {
-                cy = cy - 1;
-                move(cy + 1, cx);
+                enY = enY - 1;
+                move(enY + 1, enX);
                 printw(" ");
             }
             if (direccion == 2)
             {
-                cx = cx - 1;
-                move(cy, cx + 1);
+                enX = enX - 1;
+                move(enY, enX + 1);
                 printw(" ");
             }
             if (direccion == 3)
             {
-                cx = cx + 1;
-                move(cy, cx - 1);
+                enX = enX + 1;
+                move(enY, enX - 1);
                 printw(" ");
             }
             if (direccion == 4)
             {
-                cy = cy + 1;
-                move(cy - 1, cx);
+                enY = enY + 1;
+                move(enY - 1, enX);
                 printw(" ");
             }
         }
