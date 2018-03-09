@@ -11,7 +11,7 @@ Escenario.o: Escenario.h Escenario.cpp
 Item.o: Item.h Item.cpp
 	g++ -c Item.cpp 
 
-Jugador.o: Jugador.h Jugador.cpp
+Jugador.o: Jugador.h Jugador.cpp Item.h
 	g++ -c Jugador.cpp
 
 Tren.o: Tren.h Tren.cpp Escenario.h

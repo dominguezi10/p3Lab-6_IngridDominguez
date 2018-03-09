@@ -19,6 +19,7 @@ void movimiento();
 int kbhit(void);
 
 Jugador* crearJugador(int);
+int tipoBomba();
 
 int main(void){
     Escenario* escenario;
@@ -41,6 +42,9 @@ int main(void){
             jugador = crearJugador(1);
 
             escenario = new Invisible(nombreE);
+
+            int opcion ;
+            opcion = tipoBomba();
             refresh();
             usleep(1000000);
             
@@ -55,7 +59,7 @@ int main(void){
             move(2,1);
             nombreE = "Invisible";
             //escenario->setNombre(nombreE);
-            jugador = crearJugador(1);
+            jugador = crearJugador(2);
 
             escenario = new Tren(nombreE);
             refresh();
@@ -164,10 +168,29 @@ Jugador* crearJugador(int tipo){
     getline(eso, nombreJ);
     refresh();
 
-    Jugador* jugador = new Jugador(nombreJ, 1 ,tipo);
+    Jugador* jugador = new Jugador(nombreJ, 1 ,tipo, 0, 0);
     return jugador;
 }
 
+int tipoBomba(){
+    char este[10];
+    move(3,0);
+    printw("Opcion de nomba: ");
+    move(4,0);
+    printw("1.- Normal");
+    move(5,0);
+    printw("2.- Espina ");
+    move(6,0);
+    printw("4.- Forma V ");
+    scanw("%s", este);
+
+    move(7,0);
+    printw("%s", este);
+
+    int opcion;
+    opcion= atoi(este);
+    return opcion;
+}
 
 void salir()
 {

@@ -1,11 +1,12 @@
 #include "Jugador.h"
+#include "Item.h"
 #include <iostream>
 #include <string>
 
 using namespace std;
 
 //Cosntructor 1
-Jugador::Jugador(string nombre,int estado,int tipo){
+Jugador::Jugador(string nombre,int estado,int tipo, int  x, int y):Item(x, y){
     this->nombre=nombre;
     this->estado=estado;
     this->tipo=tipo;

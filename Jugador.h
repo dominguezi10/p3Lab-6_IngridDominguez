@@ -1,6 +1,6 @@
 #include <string>
 #include <iostream>
-
+#include "Item.h"
 using namespace std;
 
 #ifndef JUGADOR_H
@@ -8,7 +8,7 @@ using namespace std;
 
 
 //Inicio clase
-class Jugador{
+class Jugador:public Item{
 
     //Atributos
     private:
@@ -22,7 +22,7 @@ class Jugador{
         //prototipos de metodos
         //constructor
         Jugador();
-        Jugador(string,int,int);
+        Jugador(string,int,int, int, int);
 
         //metodos accersores / mutadores
         string getNombre();
