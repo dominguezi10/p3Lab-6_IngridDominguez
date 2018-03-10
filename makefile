@@ -1,5 +1,5 @@
-main: main.o Escenario.o Item.o Jugador.o Tren.o Invisible.o Bombas.o 
-	g++ main.o Escenario.o Item.o Jugador.o Invisible.o Tren.o Bombas.o  -o main -lncurses
+main: main.o Escenario.o Item.o Jugador.o Tren.o Invisible.o Bombas.o Normal.o Espina.o V.o
+	g++ main.o Escenario.o Item.o Jugador.o Invisible.o Tren.o Bombas.o Normal.o Espina.o V.o  -o main -lncurses
 
 
 main.o: main.cpp Escenario.h Item.h Jugador.h Tren.h Invisible.h Tren.h
@@ -20,7 +20,14 @@ Tren.o: Tren.h Tren.cpp Escenario.h
 Bombas.o: Bombas.cpp Bombas.h 
 	g++ -c Bombas.cpp
 
+Normal.o: Normal.h Normal.cpp Bombas.cpp Bombas.h
+	g++ -c Normal.cpp
 
+Espina.o: Espina.h Espina.cpp Bombas.cpp Bombas.h
+	g++ -c Espina.cpp
+
+V.o: V.h V.cpp Bombas.cpp Bombas.h
+	g++ -c V.cpp
 
 Invisible.o: Invisible.h Invisible.cpp Escenario.h
 	g++ -c Invisible.cpp
