@@ -249,6 +249,15 @@ void movimientoInvisible(){
     tecla = getch();
     while (true)
     {
+        /*for(int i= 2; i<13; i++){
+            for(int j=0; j<13; i++ ){
+                if(i == 5){
+                    move(i, j);
+                    printw("+");
+                    refresh();   
+                }
+            }
+        }*/
         if (kbhit())
         {
             tecla = getch();
